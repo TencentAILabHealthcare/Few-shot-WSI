@@ -158,6 +158,7 @@ Optional arguments are:
 - `--resume_from ${CHECKPOINT_FILE}`: Resume from a previous checkpoint file.
 - `--pretrained ${PRETRAIN_WEIGHTS}`: Load pretrained weights for the backbone.
 - `--deterministic`: Switch on "deterministic" mode which slows down training but the results are reproducible.
+- `--dev`: Switch to debug mode. It simply modify the batch size to 16 so that you can debug the model locally.
 
 
 For fully supervised pre-training (FSP) in near-domain task,

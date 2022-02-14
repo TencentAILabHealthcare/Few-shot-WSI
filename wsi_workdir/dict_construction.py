@@ -67,8 +67,8 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='legacy dictionary construction')
     parser.add_argument('--model', type=str, required=True, help='model name')
-    parser.add_argument('--features', type=str, required=False, default='NCT_train', help='model name')
-    parser.add_argument('--novel_class', required=False, type=int, default=None, help='model name')
+    parser.add_argument('--features', type=str, required=False, default='NCT_train', help='features file name')
+    parser.add_argument('--novel_class', required=False, type=int, default=None, help='excluding which class')
     parser.add_argument('--num_prototypes', type=int, default=16)
     parser.add_argument('--num_shift_vectors', type=int, default=2000)
     args = parser.parse_args()
