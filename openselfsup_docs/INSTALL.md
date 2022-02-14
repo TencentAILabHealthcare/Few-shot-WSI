@@ -1,3 +1,8 @@
+
+-----------
+The original README has been modified to accomdate our project. If you are interested in natural image benchmarks, settings or more details, please refer to the [original repo](https://github.com/open-mmlab/OpenSelfSup).
+  
+
 ## Installation
 
 ### Requirements
@@ -38,24 +43,10 @@ c. Install other third-party libraries.
 conda install faiss-gpu cudatoolkit=10.0 -c pytorch # optional for DeepCluster and ODC, assuming CUDA=10.0
 ```
 
-d. Clone the openselfsup repository.
-
-```shell
-git clone https://github.com/open-mmlab/openselfsup.git
-cd openselfsup
-```
-
-e. Install.
+d. Install.
 
 ```shell
 pip install -v -e .  # or "python setup.py develop"
-```
-
-f. Install Apex (optional), following the [official instructions](https://github.com/NVIDIA/apex), e.g.
-```shell
-git clone https://github.com/NVIDIA/apex
-cd apex
-pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
 Note:
@@ -67,10 +58,6 @@ Note:
 3. If you would like to use `opencv-python-headless` instead of `opencv-python`,
 you can install it before installing MMCV.
 
-
------------
-For the following sections, we modify the original README to accomdate our paper. If you are interested in natural image benchmarks, settings or more details, please refer to the [original repo](https://github.com/open-mmlab/OpenSelfSup).
-  
 #### Prepare datasets
 
 Assuming that you usually store datasets in `$YOUR_DATA_ROOT` (e.g., `/share/project/data/`).
