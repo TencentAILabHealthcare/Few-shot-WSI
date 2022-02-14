@@ -68,54 +68,57 @@ Note:
 you can install it before installing MMCV.
 
 
-### Prepare datasets
+-----------
+For the following sections, we modify the original README to accomdate our paper. If you are interested in natural image benchmarks, settings or more details, please refer to the [original repo](https://github.com/open-mmlab/OpenSelfSup).
+  
+#### Prepare datasets
 
-It is recommended to symlink your dataset root (assuming $YOUR_DATA_ROOT) to `$OPENSELFSUP/data`.
-If your folder structure is different, you may need to change the corresponding paths in config files.
+Assuming that you usually store datasets in `$YOUR_DATA_ROOT` (e.g., `/share/project/data/`).
+First, ownload [NCT-CRC-HE-100K-NONORM](https://zenodo.org/record/1214456) and extract files in this folder.
+Then, make a symlink of that folder to `data/NCT/data`. We have released our training/testing split in `data/NCT/meta`: `train.txt` and `val.txt` contains an image file name in each line, `train_labeled.txt` and `val_labeled.txt` contains `filename[space]label\n` in each line; `wo_X_train.txt` and `wo_X_train_labeled.txt` are used for near-domain pre-training, i.e., leave-one-class-out-as-novel-class, and "wo" means "without". We use `wo_X_train_labeled.txt` for fully-supervised pre-training (FSP) and `wo_X_train.txt` for contrastive-learning pre-training (CLP). 
 
-#### Prepare PASCAL VOC
-
-Assuming that you usually store datasets in `$YOUR_DATA_ROOT` (e.g., for me, `/home/xhzhan/data/`).
-This script will automatically download PASCAL VOC 2007 into `$YOUR_DATA_ROOT`, prepare the required files, create a folder `data` under `$OPENSELFSUP` and make a symlink `VOCdevkit`.
-
-```shell
-cd $OPENSELFSUP
-bash tools/prepare_data/prepare_voc07_cls.sh $YOUR_DATA_ROOT
-```
-
-#### Prepare ImageNet and Places205
-
-Taking ImageNet for example, you need to 1) download ImageNet; 2) create the following list files or download [here](https://drive.google.com/drive/folders/1wYkJU_1qRHEt1LPVjBiG6ddUFV-t9hVJ?usp=sharing) under $IMAGENET/meta/: `train.txt` and `val.txt` contains an image file name in each line, `train_labeled.txt` and `val_labeled.txt` contains `filename[space]label\n` in each line; `train_labeled_*percent.txt` are the down-sampled lists for semi-supervised evaluation. 3) create a symlink under `$OPENSELFSUP/data/`.
+This goes similarily for [LC-25000](https://academictorrents.com/details/7a638ed187a6180fd6e464b3666a6ea0499af4af) (LC25K) dataset and [PAIP2019](https://paip2019.grand-challenge.org/) (PAIP) dataset.
 
 At last, the folder looks like:
 
 ```
-OpenSelfSup
+few-shot-wsi(in our project)
 ├── openselfsup
 ├── benchmarks
 ├── configs
 ├── data
-│   ├── VOCdevkit
-│   │   ├── VOC2007
-│   │   ├── VOC2012
-│   ├── imagenet
+│   ├── NCT
 │   │   ├── meta
-│   │   |   ├── train.txt (for self-sup training, "filename\n" in each line)
-│   │   |   ├── train_labeled.txt (for linear evaluation, "filename[space]label\n" in each line)
-│   │   |   ├── train_labeled_1percent.txt (for semi-supervised evaluation)
-│   │   |   ├── train_labeled_10percent.txt (for semi-supervised evaluation)
-│   │   |   ├── val.txt
-│   │   |   ├── val_labeled.txt (for evaluation)
-│   │   ├── train
-│   │   ├── val
-│   ├── places205
+│   │   |   ├── train.txt (for contrastive-learning pre-training, "filename\n" in each line)
+│   │   |   ├── train_labeled.txt (for fully-supervised pre-training, "filename[space]label\n" in each line)
+│   │   |   ├── test.txt
+│   │   |   ├── test_labeled.txt (for evaluation)
+│   │   |   ├── wo_X_train.txt ("filename\n" in each line with class X excluded, for CLP)
+│   │   |   ├── wo_X_train_labeled.txt ("filename[space]label\n" in each line with class X excluded, for FSP)
+│   │   |   ├── ...
+│   │   ├── data (a symlink pointed to the original NCT dataset)
+│   │   |   ├── ADI    (classes in NCT dataset)
+│   │   |   ├── BACK
+│   │   |   ├── DEB
+│   │   |   ├── LYM
+│   │   |   ├── MUC
+│   │   |   ├── MUS
+│   │   |   ├── NORM
+│   │   |   ├── STR
+│   │   |   ├── TUM
+│   ├── LC25000 (similarly for LC25000)
 │   │   ├── meta
-│   │   |   ├── train.txt
-│   │   |   ├── train_labeled.txt
-│   │   |   ├── val.txt
-│   │   |   ├── val_labeled.txt
-│   │   ├── train
-│   │   ├── val
+│   │   |   ├── img_list.txt ("filename\n" in each line)
+│   │   |   ├── img_list_labeled.txt ("filename[space]label\n" in each line)
+│   │   |   ├── labels.npy (only labels, for convenience)
+│   │   |   ├── ...
+│   │   ├── data (a symlink pointed to the original LC25000 dataset)
+│   ├── PAIP (similarly for the cropped PAIP 2019 dataset)
+│   │   ├── meta (will be used for generating tasks)
+│   │   |   ├── paip_train.txt ("filename\n" in each line, contains file names for the cropped patches)
+│   │   |   ├── paip_train_labeled.txt ("filename[space]label\n" in each line)
+│   │   |   ├── ...
+│   │   ├── data (a symlink pointed to the cropped PAIP 2019 dataset)
 ```
 
 ### A from-scratch setup script
@@ -131,25 +134,9 @@ git clone https://github.com/open-mmlab/OpenSelfSup.git
 cd OpenSelfSup
 pip install -v -e .
 
-bash tools/prepare_data/prepare_voc07_cls.sh $YOUR_DATA_ROOT
-ln -s $IMAGENET_ROOT data/imagenet
-ln -s $PLACES_ROOT data/places205
-```
-
-### Using multiple OpenSelfSup versions
-
-If there are more than one openselfsup on your machine, and you want to use them alternatively, the recommended way is to create multiple conda environments and use different environments for different versions.
-
-Another way is to insert the following code to the main scripts (`train.py`, `test.py` or any other scripts you run)
-```python
-import os.path as osp
-import sys
-sys.path.insert(0, osp.join(osp.dirname(osp.abspath(__file__)), '../'))
-```
-
-Or run the following command in the terminal of corresponding folder to temporally use the current one.
-```shell
-export PYTHONPATH=`pwd`:$PYTHONPATH
+ln -s $NCT_ROOT data/NCT/data
+ln -s $LC25K_ROOT data/LC25000/data
+ln -s $croppedPAIP_ROOT data/PAIP/data # You need to change the files in data/PAIP/meta as well for different cropping.
 ```
 
 ## Common Issues

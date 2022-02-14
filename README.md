@@ -40,7 +40,7 @@ We provide the pre-computed features for them. See blow.
 
 ## Pre-trained models, Pre-computed features and pre-generated base dictionaries.
 
-We provide the pre-trained models, pre-computed features and pre-generated base dictionaries in this [link](https://drive.google.com/drive/folders/1rWX06NeWzPUtcA_IPE-n0eDVcz47Hiq2?usp=sharing). To use them, download them and put them in `wsi_workdir/workdir`.
+We provide the pre-trained models, pre-computed features and pre-generated base dictionaries in this [link](https://drive.google.com/drive/folders/1rWX06NeWzPUtcA_IPE-n0eDVcz47Hiq2?usp=sharing). To use them, download them and put them in `wsi_workdir/workdir`. Refer to Pre-Training session at the end of this document for more details of the training scripts.
 
 
 # Usage
@@ -150,6 +150,16 @@ We provide the reproduced logs in `wsi_workdir/logs`. To demonstrate reproducibi
 
 We pre-trained our models in machines with 8 V-100 GPUs.
 
+The training command is
+```shell
+    bash tools/dist_train.sh ${CONFIG_FILE} ${GPUS} [optional arguments]
+```
+Optional arguments are:
+- `--resume_from ${CHECKPOINT_FILE}`: Resume from a previous checkpoint file.
+- `--pretrained ${PRETRAIN_WEIGHTS}`: Load pretrained weights for the backbone.
+- `--deterministic`: Switch on "deterministic" mode which slows down training but the results are reproducible.
+
+
 For fully supervised pre-training (FSP) in near-domain task,
 
     for i in {0..8}
@@ -170,6 +180,7 @@ Similarly, for contrastive-learning pre-training (CLP) in near-domain task, we u
     ## training on entire training set.
     bash tools/dist_train.sh configs/wsi_selfsup/moco_v3/r18_bs256_ep200_all.py 8
 
+If you would like to know about pre-trainng commonds, please refer to [GETTING_STARTED.md](openselfsup_docs/GETTING_STARTED.md).
 
 ## Miscellaneous
 For more scripts, please see `wsi_workdir/scripts`.
