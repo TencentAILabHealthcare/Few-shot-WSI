@@ -86,7 +86,7 @@ Similarily for mixture-domain task and out-domain task (No need to specify novel
 ```
 The full-scripts are provided in `wsi_workdir/scripts/generate_xxx_tasks.sh`, `xxx` could be `near_domain`, `mixture_and_out_domain`, and `ablation`.
 
-Note that, the generating process could take a long time.
+Note that, the generating process could take a long time depending on the storage system, e.g., it took me about 10 hours to generate all near-domain tasks, as there are 9 sub-tasks; generating tasks for mixture-domain, out-domain or ablation study should be pretty fast, e.g., less than 5 minutes.
 
 ### 2. Construct base dictionary
 
@@ -136,9 +136,11 @@ After then, you can compute the final metric as harmonic mean of near-domain cla
 
 Full scripts for near-domain, mixture-domain and out-domain tasks are provided in `wsi_workdir/scripts/xxx_domain.sh`, with base dictionary construction process included.
 
+The total evaluation time can be estimated from our reproduced logs in `wsi_workdir/logs`, e.g., 15 hours for near-domain task, 1 hour for mixture-domain task and 15 minutes for out-domain task. This evaluation process covers three classifiers, i.e., RidgeClassifier, LogsiticRegression and NearestCentroid for 1-/5-/10-shots settings for near-domain and mixture-domain tasks and more shots settings for out-domain tasks. Training LogsiticRegression is the most time-consuming part. You can comment it if you don't care its performance. If you are interested in the choice of base learner, please refer to Section 4.4 `Disparity between CLP and FSP influences the choice of base learner` in our paper for more discussion. In our experience, RidgeClassifier seems to be better for CLP features.
+
 ## Logging
 
-For example, we simply run 
+To log the process, we simply run 
 
     sh wsi_workdir/scripts/near_domain.sh 2>&1 | tee wsi_workdir/logs/near_domain.txt
   

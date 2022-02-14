@@ -46,7 +46,7 @@ conda install faiss-gpu cudatoolkit=10.0 -c pytorch # optional for DeepCluster a
 d. Install.
 
 ```shell
-pip install -v -e .  # or "python setup.py develop"
+pip install -v -e .  
 ```
 
 Note:
