@@ -13,7 +13,7 @@ Please consider citing our paper in your publications if the project helps your 
   yang2022towards,
   title={Towards Better Understanding and Better Generalization of Low-shot Classification in Histology Images with Contrastive Learning},
   author={Yang, Jiawei and Chen, Hanbo and Jianpeng, Yan and Xiaoyu, Chen and Jianhua, Yao},
-  booktitle =  {International Conference on Learning Representations (ICLR)},
+  booktitle={International Conference on Learning Representations (ICLR)},
   year={2022}
 }
 ```
@@ -40,7 +40,7 @@ We provide the pre-computed features for them. See blow.
 
 ## Pre-trained models, Pre-computed features and pre-generated base dictionaries.
 
-We provide the pre-trained models, pre-computed features and pre-generated base dictionaries in this [link](). To use them, download them and put them in `wsi_workdir/workdir`.
+We provide the pre-trained models, pre-computed features and pre-generated base dictionaries in this [link](https://drive.google.com/drive/folders/1rWX06NeWzPUtcA_IPE-n0eDVcz47Hiq2?usp=sharing). To use them, download them and put them in `wsi_workdir/workdir`.
 
 
 # Usage
@@ -69,7 +69,7 @@ Similarily for mixture-domain task and out-domain task (No need to specify novel
 ```shell
     # mixture-domain (LC-25000 dataset)
     python3 wsi_workdir/tools/generate_task.py \
-        --task mixture \             # generating mixture-domain task.
+        --task mixture \          # generating mixture-domain task.
         --num_shots ${num_shot} \    
         --num_task 1000 \
         --initialization \
@@ -77,8 +77,8 @@ Similarily for mixture-domain task and out-domain task (No need to specify novel
 
     # out-domain (PAIP19 dataset)
     python3 wsi_workdir/tools/generate_task.py \
-        --task out \                 # generating out-domain task.
-        --mode hetero \              # choose between [hetero,homo] to specify patch-selection mode
+        --task out \           # generating out-domain task.
+        --mode hetero \        # choose between [hetero,homo] to specify patch-selection mode
         --num_shots $num_shot \
         --num_task 1000 \
         --initialization \
