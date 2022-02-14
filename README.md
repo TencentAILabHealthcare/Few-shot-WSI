@@ -161,7 +161,7 @@ Optional arguments are:
 
 
 For fully supervised pre-training (FSP) in near-domain task,
-
+```shell
     for i in {0..8}
     do
       bash tools/dist_train.sh configs/classification/nct/r18_bs512_ep100_wo_$i.py 8
@@ -169,9 +169,11 @@ For fully supervised pre-training (FSP) in near-domain task,
   
     ## training on entire training set.
     bash tools/dist_train.sh configs/classification/nct/r18_bs512_ep100_all.py 8
+```
 
 Similarly, for contrastive-learning pre-training (CLP) in near-domain task, we use self-implemented MoCo-V3.
 
+```shell
     for i in {0..8}
     do
       bash tools/dist_train.sh configs/wsi_selfsup/moco_v3/r18_bs256_ep200_wo_$i.py 8
@@ -179,6 +181,7 @@ Similarly, for contrastive-learning pre-training (CLP) in near-domain task, we u
   
     ## training on entire training set.
     bash tools/dist_train.sh configs/wsi_selfsup/moco_v3/r18_bs256_ep200_all.py 8
+```
 
 If you would like to know about pre-trainng commonds, please refer to [GETTING_STARTED.md](openselfsup_docs/GETTING_STARTED.md).
 
