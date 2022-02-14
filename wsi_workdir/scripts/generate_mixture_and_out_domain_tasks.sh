@@ -1,19 +1,3 @@
-# Modifiy the root to your own path
-# e.g. root=/private/project/few-shot-wsi
-root=/PATH/TO/YOUR/PROJECT/ROOT
-cd $root
-
-
-
-# uncomment and modify below if you pre-train your own model.
-# python3 -u tools/extract_backbone_weights.py \
-#     work_dirs_real/classification/nct/r18_bs512_ep100_all/latest.pth \
-#     wsi_workdir/workdir/pretrained_weights/fsp.pth
-
-# python3 -u tools/extract_backbone_weights.py \
-#     work_dirs_real/wsi_selfsup/moco_v3/r18_bs256_ep200_all/latest.pth \
-#     wsi_workdir/workdir/pretrained_weights/clp.pth
-
 
 for model in clp fsp
 do

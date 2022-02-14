@@ -1,10 +1,3 @@
-# Modifiy the root to your own path
-# e.g. root=/private/project/few-shot-wsi
-root=/PATH/TO/YOUR/PROJECT/ROOT
-cd $root
-
-
-
 # uncomment and modify below if you pre-train your own model.
 # python3 -u tools/extract_backbone_weights.py \
 #     work_dirs_real/classification/nct/r18_bs512_ep100_all/latest.pth \

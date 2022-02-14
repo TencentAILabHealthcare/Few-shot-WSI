@@ -1,7 +1,3 @@
-# Modifiy the root to your own path
-# e.g. root=/private/project/few-shot-wsi
-root=/PATH/TO/YOUR/PROJECT/ROOT
-cd $root
 
 mkdir wsi_workdir/workdir/tasks/NCT_78_aug
 for num_shot in 1 5 10

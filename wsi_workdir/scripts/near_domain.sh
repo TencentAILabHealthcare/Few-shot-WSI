@@ -1,8 +1,3 @@
-# Modifiy the root to your own path
-# e.g. root=/private/project/few-shot-wsi
-root=/PATH/TO/YOUR/PROJECT/ROOT
-cd $root
-
 for model in fsp clp
 do
     for i in {0..8}

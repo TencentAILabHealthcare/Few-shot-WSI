@@ -1,7 +1,3 @@
-# Modifiy the root to your own path
-# e.g. root=/private/project/few-shot-wsi
-root=/PATH/TO/YOUR/PROJECT/ROOT
-cd $root
 
 # out=out-domain, heterogeneous shot selection
 # out_homo = out-domain, homogeneous shot selection. 
