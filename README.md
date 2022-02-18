@@ -4,7 +4,7 @@
 This project hosts the code for the paper
 > [**Towards Better Understanding and Better Generalization of Low-shot Classification in Histology Images with Contrastive Learning**](tbd_link),  
 > Jiawei Yang, Hanbo Chen, Jianpeng Yan, Xiaoyu Chen, and Jianhua Yao    
-> International Conference on Learning Representations (ICLR)
+> International Conference on Learning Representations (ICLR), 2022
 <!-- > *arXiv preprint ([arXiv number](tbd_link))*   -->
 
 Please consider citing our paper in your publications if the project helps your research. BibTeX reference is as follow.
@@ -86,7 +86,7 @@ Similarily for mixture-domain task and out-domain task (No need to specify novel
 ```
 The full-scripts are provided in `wsi_workdir/scripts/generate_xxx_tasks.sh`, `xxx` could be `near_domain`, `mixture_and_out_domain`, and `ablation`.
 
-Note that, the generating process could take a long time depending on the storage system, e.g., it took me about 10 hours to generate all near-domain tasks, as there are 9 sub-tasks; generating tasks for mixture-domain, out-domain or ablation study should be pretty fast, e.g., less than 5 minutes.
+Note that, the generating time could vary drastically depending on the storage system, e.g., less than 1 minute for SSD, and hours for distributed ceph.
 
 ### 2. Construct base dictionary
 
@@ -102,7 +102,7 @@ where the novel class is the excluded novel class in NCT dataset. Not passing no
 
 ### 3. Meta-testing
 
-For meta-testing, run
+For meta-testing in near-domain task, run
 ```shell
     # near-domain
     python3 -u wsi_workdir/distributed_meta_test.py \
@@ -110,12 +110,24 @@ For meta-testing, run
         --num_task 1000 \         # number of tasks, e.g., 300, 1000        
         --num_shots ${num_shot} \ # number of shots, e.g., 1, 5, 10
         --mode linear   \         # `linear` for baseline and `latent_aug` for LA
-        --model ${_model} \       # choose between [clp,fsp]
+        --model ${_model} \       # choose between [clp,fsp] + _wo_X, e.g., clp_wo_7
         --novel_class ${i}  \     # specify novel class, only used in near-domain task
         --clf ${clf}              # choose among [Ridge,logistic_regression,nearest_centroid]
 ```
 
 It will load the pre-genearted base bank for querying the most similar prototypes, the latent shift vectors for latent augmentation, and the pre-genearted tasks for training and evaluation.
+
+For meta-testing in mixture-domain and out-domain tasks, run
+```shell
+    # near-domain
+    python3 -u wsi_workdir/distributed_meta_test.py \
+        --task mixture \          # choose among [mixture,out,out_homo].
+        --num_task 1000 \         # number of tasks, e.g., 300, 1000        
+        --num_shots ${num_shot} \ # number of shots, e.g., 1, 5, 10
+        --mode linear   \         # `linear` for baseline and `latent_aug` for LA
+        --model ${_model} \       # choose between [clp,fsp]. The chosen is pre-trained on the entire dataset. 
+        --clf ${clf}              # choose among [Ridge,logistic_regression,nearest_centroid]
+```
 
 The results are F1-score ± 95% confidence intervals for each class, with the average F1-score at the last line, e.g., 
 ```shell
@@ -136,7 +148,7 @@ After then, you can compute the final metric as harmonic mean of near-domain cla
 
 Full scripts for near-domain, mixture-domain and out-domain tasks are provided in `wsi_workdir/scripts/xxx_domain.sh`, with base dictionary construction process included.
 
-The total evaluation time can be estimated from our reproduced logs in `wsi_workdir/logs`, e.g., 15 hours for near-domain task, 1 hour for mixture-domain task and 15 minutes for out-domain task. This evaluation process covers three classifiers, i.e., RidgeClassifier, LogsiticRegression and NearestCentroid for 1-/5-/10-shots settings for near-domain and mixture-domain tasks and more shots settings for out-domain tasks. Training LogsiticRegression is the most time-consuming part. You can comment it if you don't care its performance. If you are interested in the choice of base learner, please refer to Section 4.4 `Disparity between CLP and FSP influences the choice of base learner` in our paper for more discussion. In our experience, RidgeClassifier seems to be better for CLP features.
+The total evaluation time can be estimated from our reproduced logs in `wsi_workdir/logs`, e.g., 15 hours for near-domain task (again, 9 sub-tasks in near-domain task make the evaluation process slow), 1 hour for mixture-domain task and 15 minutes for out-domain task. This evaluation process covers three classifiers, i.e., RidgeClassifier, LogsiticRegression and NearestCentroid for 1-/5-/10-shots settings for near-domain and mixture-domain tasks and more shots settings for out-domain tasks. Training LogsiticRegression is the most time-consuming part. You can comment it if you don't care its performance. If you are interested in the choice of base learner, please refer to Section 4.4 `Disparity between CLP and FSP influences the choice of base learner` in our paper for more discussion. In our experience, RidgeClassifier seems to be better for CLP features.
 
 ## Logging
 

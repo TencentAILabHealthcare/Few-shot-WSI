@@ -39,8 +39,12 @@ conda install pytorch torchvision -c pytorch
 
 c. Install other third-party libraries.
 
-```shell
+```shell#
+# the original repo uses
 conda install faiss-gpu cudatoolkit=10.0 -c pytorch # optional for DeepCluster and ODC, assuming CUDA=10.0
+
+# we recommend to use
+conda install faiss-gpu==1.6.1
 ```
 
 d. Install.
