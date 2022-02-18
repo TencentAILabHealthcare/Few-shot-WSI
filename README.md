@@ -2,7 +2,7 @@
 # Towards Better Understanding and Better Generalization of Low-shot Classification in Histology Images with Contrastive Learning.
 
 This project hosts the code for the paper
-> [**Towards Better Understanding and Better Generalization of Low-shot Classification in Histology Images with Contrastive Learning**](tbd_link),  
+> [**Towards Better Understanding and Better Generalization of Low-shot Classification in Histology Images with Contrastive Learning**](https://openreview.net/forum?id=kQ2SOflIOVC),  
 > Jiawei Yang, Hanbo Chen, Jianpeng Yan, Xiaoyu Chen, and Jianhua Yao    
 > International Conference on Learning Representations (ICLR), 2022
 <!-- > *arXiv preprint ([arXiv number](tbd_link))*   -->
