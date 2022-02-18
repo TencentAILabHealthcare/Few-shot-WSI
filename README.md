@@ -203,7 +203,22 @@ If you would like to know about pre-trainng commonds, please refer to [GETTING_S
 ## Miscellaneous
 For more scripts, please see `wsi_workdir/scripts`.
 
--------
 
 ## Acknowledgement
 We thank the [OpenSelfSup](https://github.com/open-mmlab/OpenSelfSup) for its open-source project.
+
+------
+
+## Disclaimer
+
+This tool is for research purpose and not approved for clinical use.
+
+This is not an official Tencent product.
+
+## Copyright
+
+This tool is developed in Tencent AI Lab.
+
+The copyright holder for this project is Tencent AI Lab.
+
+All rights reserved.
